@@ -1,7 +1,4 @@
-// Завдання 1.2.1 – 1.2.7 в одному файлі.
-// Кожне завдання винесене в окремий namespace з функцією run().
-// Запуск: ./task_1_2_all <номер 1..7>   (або без аргументів – з'явиться меню)
-//         ./task_1_2_all all            (запускає 2..7; 1 пропускається, бо завершує програму)
+
 #include <iostream>
 #include <string>
 #include <thread>
@@ -22,7 +19,7 @@ void Thread2() { cout << 2 << endl; }
 void run() {
     thread t1(Thread1);
     thread t2(Thread2);
-    // Немає ні join(), ні detach() -> деструктор joinable-потоку викличе std::terminate()
+
 }
 }
 
@@ -38,7 +35,7 @@ void run() {
     thread t2(Thread2);
     t1.detach();
     t2.detach();
-    // функція одразу завершується: потоки можуть не встигнути вивести результат
+
 }
 }
 
@@ -138,7 +135,7 @@ void run() {
         t1.detach();
         t2.detach();
     }
-    // потоки від'єднані, тому даємо їм час завершитись
+
     this_thread::sleep_for(chrono::seconds(1));
 }
 }
@@ -188,8 +185,8 @@ public:
 
     // 1.2.6: std::lock + lock_guard(adopt_lock)
     static void Swap(exchangePerson& a, exchangePerson& b) {
-        if (&a == &b) return; // той самий об'єкт -> подвійне захоплення м'ютекса
-        lock(a.m, b.m);       // захоплює обидва без ризику deadlock
+        if (&a == &b) return; 
+        lock(a.m, b.m);  
         lock_guard<mutex> la(a.m, adopt_lock);
         lock_guard<mutex> lb(b.m, adopt_lock);
         swapAndPrint(a, b);
@@ -200,7 +197,7 @@ public:
         if (&a == &b) return;
         unique_lock<mutex> la(a.m, defer_lock);
         unique_lock<mutex> lb(b.m, defer_lock);
-        lock(la, lb);         // захоплює обидва без ризику deadlock
+        lock(la, lb);
         swapAndPrint(a, b);
     }
 };
@@ -212,11 +209,11 @@ void runWith(SwapFn swapFn) {
     thread t2(exchangePerson::JacobSmith, ref(p2));
     t1.detach();
     t2.detach();
-    // невелика пауза, щоб від'єднані потоки встигли заповнити дані
+
     this_thread::sleep_for(chrono::milliseconds(200));
 
     thread t3(swapFn, ref(p1), ref(p2));
-    t3.join(); // гарантуємо завершення Swap
+    t3.join();
 }
 }
 
