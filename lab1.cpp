@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <chrono>
 #include <utility>
+#include <windows.h>
 using namespace std;
 
 // ============================================================
@@ -243,6 +244,8 @@ static void runTask(int n) {
 }
 
 int main(int argc, char* argv[]) {
+        SetConsoleOutputCP(CP_UTF8);
+    SetConsoleCP(CP_UTF8);
     string choice;
     if (argc > 1) {
         choice = argv[1];
